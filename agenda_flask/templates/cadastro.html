@@ -4,12 +4,12 @@
         <div class="header">
             <a href="https://github.com/jerre231" target="_blank">
                 <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub Logo">
-            </a><a href="https://www.linkedin.com/in/toma_vegonha_na_cara_e_cria_logo_o_perfil_animal" target="_blank">
+            </a><a href="https://www.linkedin.com/in/toma_vergonha_na_cara_e_cria_logo_o_perfil_animal" target="_blank">
                 <img src="https://cdn-icons-png.flaticon.com/512/145/145807.png" alt="LinkedIn Logo">
             </a>
             <div class="sign-up">
-                <form action="{{ url_for('pagina_de_cadastro') }}" method="get">
-                    <button type="submit">Sign-up</button>
+                <form action="{{ url_for('login') }}" method="get">
+                    <button type="submit">Login</button>
                 </form>
             </div>
             
@@ -17,19 +17,19 @@
         <div class="container">
             <div class="intern">
                 <form method="post" action=""> 
-                    <h2>Login</h2> 
+                    <h2>Sign-up</h2> 
                     <p> 
                     <label for="email_login">User: </label>
-                    <input id="email_login" name="email_login" required="required" type="text"/>
+                    <input id="email_login" name="email_cadastro" required="required" type="text"/>
                     </p>
                     
                     <p>
                     <label for="pass_login">Senha: </label>
-                    <input id="pass_login" name="pass_login" required="required" type="password">
+                    <input id="pass_login" name="pass_cadastro" required="required" type="password">
                     </p>
                     
                     <p> 
-                    <input type="submit" value="Sign-in" /> 
+                    <input type="submit" value="Sign-up" /> 
                     </p>
                 </form>
             </div>
