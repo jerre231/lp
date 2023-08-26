@@ -1,3 +1,18 @@
+class Users():
+    def __init__(self):
+        self.temp = {}
+    
+    def inserir_user(self, nome, passw):
+        self.temp[nome] = passw
+        self.salvar_user()
+
+    def salvar_user(self):
+        with open('users.txt', 'a') as arquivo:
+            for nome, passw in self.temp.items():
+                linha = f"{nome}: {passw}\n"
+                arquivo.write(linha)
+        self.temp = {}
+
 class Agenda():
     def __init__(self):
         self.cont = {}
@@ -6,7 +21,7 @@ class Agenda():
         self.cont[nome] = numero
         self.salvar()
 
-    def remover(self, nome, numero):
+    def remover(self, nome):
         with open('data.txt', 'r+') as arquivo:
             linhas = arquivo.readlines()
             arquivo.seek(0)

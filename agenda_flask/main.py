@@ -1,33 +1,46 @@
 from flask import *
 import pandas as pd
-from agenda import Agenda
+from classes import Agenda, Users
 
+#inicialização do app_Flask
 app = Flask(__name__)
+
+#Declaração dos objeto 
 agenda = Agenda()
+user = Users()
 
-users = {
-    "admin": "admin"
-}
-
+#Pagina de login
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
         email = request.form.get("email_login")
         password = request.form.get("pass_login")
-        
+
+        '''
         if email in users and users[email] == password:
-            return redirect(url_for("imprimir"))
-        else:
-            return redirect(url_for("login"))  
+            return redirect(url_for("imprimir"))'''
+        
+        with open('users.txt', 'r+') as arquivo:
+            linhas = arquivo.readlines()
+            arquivo.seek(0)
 
-    return render_template("login.html")  
+            for linha in linhas:
+                if not linha == (email + ": " + password):
+                    return redirect(url_for("imprimir"))
+                
+                else:
+                    return redirect(url_for("login"))
 
+    return render_template("login.html")
+
+#Página home (inútil até então)
 @app.route("/home", methods=["GET", "POST"])
 def home():
     return render_template("home.html")
 
+#Método usado para obter os requests dentro da box da agenda
 @app.route("/box", methods=["GET", "POST"])
-def box():
+def box():                                                                               #TODO: criar uma database para cada agenda
     nome = request.form.get("nome")
     numero = request.form.get("numero")
     opc = request.form.get("opc")
@@ -39,6 +52,7 @@ def box():
     
     return redirect(url_for("imprimir"))
 
+#Pagina da agenda de fato
 @app.route("/imprimir")
 def imprimir():
     df = pd.read_csv('data.txt', delimiter=':', header=None, names=['Nome', 'Número'])  #TODO: criar uma agenda diferente para cada user
@@ -46,12 +60,13 @@ def imprimir():
     
     return render_template("home.html", tabela_html=tabela_html)
 
+#Pagina de cadastro (igual a de login)
 @app.route("/pagina_de_cadastro", methods=["GET", "POST"])                              #TODO: implementar database de usuários usando SQL
 def pagina_de_cadastro():
     if request.method == "POST":
         email = request.form.get("email_cadastro")
         password = request.form.get("pass_cadastro")
-        users[email] = password
+        user.inserir_user(email, password)
         return redirect(url_for("login")) 
 
     return render_template("cadastro.html")
