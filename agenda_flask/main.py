@@ -1,7 +1,7 @@
-from flask import *
-import pandas as pd
-from classes import Agenda, Users
-
+from flask import *                                             #TODO: trocar todos os txt's por SQL
+import pandas as pd                                             #TODO: uma agenda diferente para cada usuário
+from classes import Agenda, Users                               #TODO: botão de voltar a o login na pagina da agenda
+                                                                #TODO: implementar alguma mecanismo de segurança (tentar colocar id de cada user no endereço da agenda)
 #inicialização do app_Flask
 app = Flask(__name__)
 
@@ -40,7 +40,7 @@ def home():
 
 #Método usado para obter os requests dentro da box da agenda
 @app.route("/box", methods=["GET", "POST"])
-def box():                                                                               #TODO: criar uma database para cada agenda
+def box():
     nome = request.form.get("nome")
     numero = request.form.get("numero")
     opc = request.form.get("opc")
@@ -55,13 +55,13 @@ def box():                                                                      
 #Pagina da agenda de fato
 @app.route("/imprimir")
 def imprimir():
-    df = pd.read_csv('data.txt', delimiter=':', header=None, names=['Nome', 'Número'])  #TODO: criar uma agenda diferente para cada user
+    df = pd.read_csv('data.txt', delimiter=':', header=None, names=['Nome', 'Número'])
     tabela_html = df.to_html(classes='table table-striped', index=False)
     
     return render_template("home.html", tabela_html=tabela_html)
 
 #Pagina de cadastro (igual a de login)
-@app.route("/pagina_de_cadastro", methods=["GET", "POST"])                              #TODO: implementar database de usuários usando SQL
+@app.route("/pagina_de_cadastro", methods=["GET", "POST"])
 def pagina_de_cadastro():
     if request.method == "POST":
         email = request.form.get("email_cadastro")
